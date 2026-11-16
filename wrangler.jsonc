@@ -1,0 +1,8 @@
+{
+  // Tells Cloudflare where the website files are in this repository.
+  "name": "kenji-jesus-beni",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./INNE-site111/INNE-site"
+  }
+}
