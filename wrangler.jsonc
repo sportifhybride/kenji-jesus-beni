@@ -1,8 +1,18 @@
 {
-  // Tells Cloudflare where the website files are in this repository.
+  // INNÉ website: static files + reviews API (see reviews/worker.js).
   "name": "kenji-jesus-beni",
+  "main": "reviews/worker.js",
   "compatibility_date": "2026-11-01",
   "assets": {
-    "directory": "./INNE-site111/INNE-site"
-  }
+    "directory": "./INNE-site111/INNE-site",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "inne-reviews",
+      "database_id": "185e4340-e2c0-480e-a367-19d0c5721e84"
+    }
+  ]
 }
