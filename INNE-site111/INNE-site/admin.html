@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Espace Kenji — Avis INNÉ</title>
+<meta name="theme-color" content="#142419">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23142419'/%3E%3Cpath d='M18 46c0-18 10-28 28-30 0 18-10 30-26 30M18 46l16-16' fill='none' stroke='%23A4AD75' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/inne.css">
+<style>
+  body{background:var(--forest)}
+  .adm{width:min(980px,100% - 32px);margin:0 auto;padding:40px 0 80px}
+  .adm-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+  .adm-top h1{font-size:clamp(28px,4vw,40px);text-transform:uppercase}
+  .adm-card{background:var(--cream);color:var(--ink);border-radius:10px;padding:24px;margin-bottom:18px}
+  .adm-card h2{font:600 22px var(--serif);text-transform:uppercase;margin:0 0 14px}
+  .adm-login{max-width:420px;margin:12vh auto 0}
+  .adm input[type=password],.adm input[type=text],.adm input[type=number],.adm textarea{font:400 16px var(--sans);padding:12px 14px;border-radius:var(--r);border:1px solid rgba(48,61,37,.35);background:var(--ivory);color:var(--ink);width:100%}
+  .adm textarea{min-height:90px;resize:vertical}
+  .adm label{display:grid;gap:6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tabs button{font:600 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;border-radius:999px;border:1px solid rgba(164,173,117,.5);background:transparent;color:var(--ivory);cursor:pointer}
+  .tabs button[aria-pressed=true]{background:var(--sage);color:var(--forest);border-color:var(--sage)}
+  .tabs .n{display:inline-block;min-width:20px;margin-left:6px;padding:1px 6px;border-radius:999px;background:rgba(0,0,0,.18);font-size:11px}
+  .rv-admin{display:grid;gap:12px}
+  .rv-admin .meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;opacity:.8;margin-bottom:8px}
+  .rv-admin .who{font:600 20px var(--serif)}
+  .rv-admin .txt{white-space:pre-wrap;font-size:15px;line-height:1.6;margin:8px 0 14px}
+  .rv-admin .stars{color:#b08d43;letter-spacing:2px}
+  .pill{font:700 10px var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:rgba(48,61,37,.12)}
+  .pill.pending{background:#f3d98b}.pill.published{background:#cfe0a8}.pill.rejected{background:#e7c3b8}
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .acts .btn{padding:10px 14px;font-size:11px}
+  .btn-danger{color:#7a2614;border-color:#7a2614;background:transparent}
+  .btn-danger:hover{background:#7a2614;color:#fff}
+  table.codes{width:100%;border-collapse:collapse;font-size:14px}
+  table.codes td,table.codes th{padding:10px 8px;border-bottom:1px solid rgba(48,61,37,.18);text-align:left}
+  table.codes code{font:600 15px ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em}
+  .new-codes{font:600 18px ui-monospace,Menlo,Consolas,monospace;background:var(--ivory);padding:14px;border-radius:var(--r);margin:12px 0;display:grid;gap:6px}
+  .row{display:grid;grid-template-columns:2fr 1fr auto;gap:12px;align-items:end}
+  @media (max-width:640px){.row{grid-template-columns:1fr}}
+  .note{font-size:13px;opacity:.8;line-height:1.5}
+  .err{color:#a33a20;font-size:14px;margin-top:8px}
+  .ok{color:#3d5a1d;font-size:14px;margin-top:8px}
+  .empty{opacity:.75;font-style:italic;padding:8px 0}
+  .adm .btn-ghost{background:transparent;color:var(--ivory)}
+  .adm-card .btn-ink{background:transparent}
+</style>
+</head>
+<body>
+<div class="adm">
+  <section id="login" class="adm-card adm-login">
+    <h2>Espace Kenji</h2>
+    <form id="login-form">
+      <label>Mot de passe<input type="password" id="pw" autocomplete="current-password" required></label>
+      <button class="btn btn-solid" type="submit">Se connecter</button>
+      <p class="err" id="login-err" hidden></p>
+    </form>
+  </section>
+
+  <div id="app" hidden>
+    <div class="adm-top">
+      <h1>Avis INNÉ</h1>
+      <div class="acts"><a class="btn btn-ghost" href="journeys.html" target="_blank" rel="noopener">Voir la page des avis</a><button class="btn btn-ghost" type="button" id="logout">Se déconnecter</button></div>
+    </div>
+
+    <div class="tabs" id="tabs" role="group">
+      <button type="button" data-status="pending" aria-pressed="true">À valider<span class="n" id="n-pending">0</span></button>
+      <button type="button" data-status="published" aria-pressed="false">Publiés<span class="n" id="n-published">0</span></button>
+      <button type="button" data-status="rejected" aria-pressed="false">Refusés<span class="n" id="n-rejected">0</span></button>
+      <button type="button" data-status="codes" aria-pressed="false">Codes clients</button>
+      <button type="button" data-status="settings" aria-pressed="false">Mot de passe</button>
+    </div>
+
+    <div id="view-reviews" class="rv-admin"></div>
+
+    <div id="view-codes" hidden>
+      <section class="adm-card">
+        <h2>Créer un code client</h2>
+        <p class="note">Donne un code à chaque client à la fin de son parcours. Il s'en sert une seule fois pour publier son avis sur la page Testimonials.</p>
+        <form id="code-form" class="row">
+          <label>Pour qui ? (note pour toi)<input type="text" id="code-label" maxlength="80" placeholder="ex. Yohan — Private Experience"></label>
+          <label>Combien<input type="number" id="code-count" min="1" max="20" value="1"></label>
+          <button class="btn btn-solid" type="submit" style="margin-bottom:14px">Créer</button>
+        </form>
+        <div id="new-codes"></div>
+      </section>
+      <section class="adm-card">
+        <h2>Tous les codes</h2>
+        <div id="codes-list"></div>
+      </section>
+    </div>
+
+    <div id="view-settings" hidden>
+      <section class="adm-card">
+        <h2>Changer le mot de passe</h2>
+        <form id="pw-form">
+          <label>Nouveau mot de passe (10 caractères minimum)<input type="password" id="pw-new" minlength="10" autocomplete="new-password" required></label>
+          <label>Confirmer<input type="password" id="pw-new2" minlength="10" autocomplete="new-password" required></label>
+          <button class="btn btn-solid" type="submit">Enregistrer</button>
+          <p id="pw-msg" hidden></p>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "inne_admin";
+  var pw = "";
+  try { pw = sessionStorage.getItem(KEY) || ""; } catch (e) {}
+  var $ = function (id) { return document.getElementById(id); };
+  var OFFERS = { guide: "The Guide", program: "The Program", "private": "The Private Experience" };
+  var current = "pending";
+
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({ authorization: "Bearer " + pw, "content-type": "application/json" }, opts.headers || {});
+    return fetch(path, opts).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (r.status === 401 || r.status === 429) { logout(r.status === 429 ? "Trop d'essais. Réessaie dans 15 minutes." : "Mot de passe incorrect."); throw new Error("auth"); }
+        if (!r.ok) throw new Error(j.error || r.status);
+        return j;
+      });
+    });
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function fmt(iso) { try { return new Date(iso).toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" }); } catch (e) { return iso || ""; } }
+  function btn(label, cls, fn) { var b = el("button", "btn " + cls, label); b.type = "button"; b.addEventListener("click", fn); return b; }
+
+  function logout(msg) {
+    pw = ""; try { sessionStorage.removeItem(KEY); } catch (e) {}
+    $("app").hidden = true; $("login").hidden = false;
+    var er = $("login-err"); er.hidden = !msg; er.textContent = msg || "";
+  }
+  function start() {
+    $("login").hidden = true; $("app").hidden = false;
+    show(current);
+  }
+
+  $("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    pw = $("pw").value;
+    api("/api/admin/login", { method: "POST", body: "{}" }).then(function () {
+      try { sessionStorage.setItem(KEY, pw); } catch (e) {}
+      $("pw").value = ""; start();
+    }).catch(function (err) { if (err.message !== "auth") logout("Impossible de joindre le serveur."); });
+  });
+  $("logout").addEventListener("click", function () { logout(""); });
+
+  Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (b) {
+    b.addEventListener("click", function () { show(b.getAttribute("data-status")); });
+  });
+
+  function show(view) {
+    current = view;
+    Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-status") === view ? "true" : "false"); });
+    $("view-reviews").hidden = view === "codes" || view === "settings";
+    $("view-codes").hidden = view !== "codes";
+    $("view-settings").hidden = view !== "settings";
+    if (view === "codes") loadCodes();
+    else if (view !== "settings") loadReviews(view);
+    else refreshCounts();
+  }
+  function setCounts(c) { ["pending", "published", "rejected"].forEach(function (s) { $("n-" + s).textContent = c[s] || 0; }); }
+  function refreshCounts() { api("/api/admin/reviews?status=pending").then(function (d) { setCounts(d.counts || {}); }).catch(function () {}); }
+
+  function loadReviews(status) {
+    var box = $("view-reviews"); box.textContent = "";
+    box.appendChild(el("p", "empty", "Chargement…"));
+    api("/api/admin/reviews?status=" + status).then(function (d) {
+      setCounts(d.counts || {});
+      box.textContent = "";
+      if (!d.reviews.length) { box.appendChild(el("p", "empty", status === "pending" ? "Aucun avis en attente." : "Rien ici pour le moment.")); return; }
+      d.reviews.forEach(function (r) { box.appendChild(card(r)); });
+    }).catch(function (e) { if (e.message !== "auth") { box.textContent = ""; box.appendChild(el("p", "err", "Erreur de chargement.")); } });
+  }
+
+  function act(id, payload) {
+    return api("/api/admin/reviews/" + id, { method: "POST", body: JSON.stringify(payload) }).then(function () { loadReviews(current); });
+  }
+
+  function card(r) {
+    var c = el("article", "adm-card");
+    var meta = el("div", "meta");
+    var left = el("div");
+    left.appendChild(el("div", "who", r.name));
+    left.appendChild(el("div", "", (OFFERS[r.offer] || r.offer) + " · langue " + (r.lang || "en").toUpperCase() + " · code " + (r.code || "—")));
+    var right = el("div");
+    right.appendChild(el("span", "pill " + r.status, r.status === "pending" ? "À valider" : r.status === "published" ? "Publié" : "Refusé"));
+    right.appendChild(el("div", "", "Reçu le " + fmt(r.created_at)));
+    meta.appendChild(left); meta.appendChild(right);
+    c.appendChild(meta);
+    c.appendChild(el("div", "stars", "★★★★★".slice(0, r.rating) + "☆☆☆☆☆".slice(0, 5 - r.rating)));
+    c.appendChild(el("p", "txt", r.body));
+
+    var lab = el("label", "", "Ta réponse (publiée sous l'avis, signée Kenji)");
+    var ta = el("textarea"); ta.value = r.reply || ""; ta.maxLength = 2000;
+    lab.appendChild(ta); c.appendChild(lab);
+
+    var acts = el("div", "acts");
+    acts.appendChild(btn(r.reply ? "Mettre à jour la réponse" : "Enregistrer la réponse", "btn-ink", function () { act(r.id, { action: "reply", reply: ta.value }); }));
+    if (r.status !== "published") acts.appendChild(btn("Publier", "btn-solid", function () {
+      var p = ta.value.trim() && ta.value !== (r.reply || "") ? act(r.id, { action: "reply", reply: ta.value }) : Promise.resolve();
+      p.then(function () { return act(r.id, { action: "publish" }); });
+    }));
+    if (r.status !== "rejected") acts.appendChild(btn(r.status === "published" ? "Retirer du site" : "Refuser", "btn-ink", function () { act(r.id, { action: "reject" }); }));
+    acts.appendChild(btn("Supprimer définitivement", "btn-danger", function () {
+      if (window.confirm && !window.confirm("Supprimer définitivement cet avis ?")) return;
+      act(r.id, { action: "delete" });
+    }));
+    c.appendChild(acts);
+    if (r.status === "pending") c.appendChild(el("p", "note", "Rappel : tu peux refuser un avis injurieux, hors sujet, faux ou qui révèle des données personnelles, mais pas un avis simplement négatif. Mieux vaut y répondre."));
+    return c;
+  }
+
+  /* ---------- codes ---------- */
+  $("code-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    api("/api/admin/codes", { method: "POST", body: JSON.stringify({ label: $("code-label").value, count: Number($("code-count").value) || 1 }) })
+      .then(function (d) {
+        var box = $("new-codes"); box.textContent = "";
+        box.appendChild(el("p", "ok", "Code(s) créé(s) — copie-le et envoie-le à ton client :"));
+        var list = el("div", "new-codes");
+        d.codes.forEach(function (c) { list.appendChild(el("div", "", c)); });
+        box.appendChild(list);
+        $("code-label").value = ""; $("code-count").value = 1;
+        loadCodes();
+      }).catch(function () {});
+  });
+  function loadCodes() {
+    var box = $("codes-list"); box.textContent = "";
+    api("/api/admin/codes").then(function (d) {
+      if (!d.codes.length) { box.appendChild(el("p", "empty", "Aucun code pour le moment.")); return; }
+      var tb = el("table", "codes"), head = el("tr");
+      ["Code", "Pour", "Créé le", "État", ""].forEach(function (h) { head.appendChild(el("th", "", h)); });
+      tb.appendChild(head);
+      d.codes.forEach(function (c) {
+        var tr = el("tr");
+        var td = el("td"); td.appendChild(el("code", "", c.code)); tr.appendChild(td);
+        tr.appendChild(el("td", "", c.label || "—"));
+        tr.appendChild(el("td", "", fmt(c.created_at)));
+        tr.appendChild(el("td", "", c.used_at ? "Utilisé le " + fmt(c.used_at) : "Disponible"));
+        var tdx = el("td");
+        if (!c.used_at) tdx.appendChild(btn("Supprimer", "btn-danger", function () {
+          api("/api/admin/codes/delete", { method: "POST", body: JSON.stringify({ code: c.code }) }).then(loadCodes);
+        }));
+        tr.appendChild(tdx);
+        tb.appendChild(tr);
+      });
+      box.appendChild(tb);
+    }).catch(function () {});
+  }
+
+  /* ---------- password ---------- */
+  $("pw-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var a = $("pw-new").value, b = $("pw-new2").value, m = $("pw-msg");
+    m.hidden = false;
+    if (a.length < 10) { m.className = "err"; m.textContent = "10 caractères minimum."; return; }
+    if (a !== b) { m.className = "err"; m.textContent = "Les deux mots de passe ne correspondent pas."; return; }
+    api("/api/admin/password", { method: "POST", body: JSON.stringify({ password: a }) }).then(function () {
+      pw = a; try { sessionStorage.setItem(KEY, pw); } catch (e) {}
+      m.className = "ok"; m.textContent = "Mot de passe changé.";
+      $("pw-new").value = ""; $("pw-new2").value = "";
+    }).catch(function () { m.className = "err"; m.textContent = "Erreur, réessaie."; });
+  });
+
+  if (pw) {
+    api("/api/admin/login", { method: "POST", body: "{}" }).then(start).catch(function () {});
+  }
+})();
+</script>
+</body>
+</html>

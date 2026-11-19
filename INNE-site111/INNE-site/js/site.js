@@ -180,17 +180,33 @@
     var wanted = (location.hash || "").replace("#", "") || (pre && pre[1]) || "foundation";
     if (!KEYS[wanted]) wanted = "foundation";
     $$("input[name=path]", co).forEach(function (r) { r.checked = r.value === wanted; });
+    var vset = $("#co-version"), vmsg = $("#co-vmsg"), vnote = $("#co-vnote"), vtext = $("#co-vtext");
+    function needsVersion() { var sel = $("input[name=path]:checked", co); return !!vset && sel && sel.value === "foundation"; }
+    function versionKey() { var v = $("input[name=version]:checked", co); return v ? v.value : ""; }
     updateCheckout = function () {
       var sel = $("input[name=path]:checked", co), k = KEYS[sel ? sel.value : "foundation"];
-      var ok = boxes[0].checked && boxes[1].checked && !!CFG.paypal;
+      var guide = needsVersion(), v = versionKey();
+      if (vset) vset.hidden = !guide;
+      var vok = !guide || !!v;
+      var ok = boxes[0].checked && boxes[1].checked && vok && !!CFG.paypal;
       $("#co-total").textContent = t("price." + k);
+      if (vnote) {
+        vnote.hidden = !(guide && v);
+        if (guide && v) vtext.textContent = t("co.guide") + " — " + t(v === "women" ? "co.women" : "co.men");
+      }
       pay.href = ok ? CFG.paypal.replace(/\/$/, "") + "/" + t("pay." + k) : "#";
       pay.setAttribute("aria-disabled", ok ? "false" : "true");
-      if (ok) msg.hidden = true;
+      if (ok) { msg.hidden = true; if (vmsg) vmsg.hidden = true; }
+      if (vok && vmsg) vmsg.hidden = true;
     };
     $$("input", co).forEach(function (i) { i.addEventListener("change", updateCheckout); });
     pay.addEventListener("click", function (e) {
-      if (pay.getAttribute("aria-disabled") === "true") { e.preventDefault(); msg.hidden = false; }
+      if (pay.getAttribute("aria-disabled") === "true") {
+        e.preventDefault();
+        var vmissing = needsVersion() && !versionKey();
+        if (vmsg) vmsg.hidden = !vmissing;
+        msg.hidden = !(!boxes[0].checked || !boxes[1].checked);
+      }
     });
     updateCheckout();
   }

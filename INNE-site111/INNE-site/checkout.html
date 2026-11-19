@@ -29,13 +29,18 @@
 <section class="section sand"><div class="wrap split" style="align-items:start">
   <div class="checkout reveal" id="checkout">
     <fieldset><legend data-i18n="co.choose">Your path</legend>
-      <label class="option"><input type="radio" name="path" value="foundation"><span class="option-body"><b data-i18n="f.name">The Foundation</b><small data-i18n="f.kind">Guide only</small></span><span class="option-price" data-i18n="price.f">$89</span></label><label class="option"><input type="radio" name="path" value="reconnection"><span class="option-body"><b data-i18n="r.name">The Reconnection</b><small data-i18n="r.kind">Guide + Program</small></span><span class="option-price" data-i18n="price.r">$297</span></label><label class="option"><input type="radio" name="path" value="private"><span class="option-body"><b data-i18n="x.name">The Private Experience</b><small data-i18n="x.kind">Personalized program + Calls + Direct support</small></span><span class="option-price" data-i18n="price.x">$997</span></label>
+      <label class="option"><input type="radio" name="path" value="foundation"><span class="option-body"><b data-i18n="f.name">The Guide</b><small data-i18n="f.kind">The Essentials</small></span><span class="option-price" data-i18n="price.f">$29</span></label><label class="option"><input type="radio" name="path" value="reconnection"><span class="option-body"><b data-i18n="r.name">The Program</b><small data-i18n="r.kind">The System</small></span><span class="option-price" data-i18n="price.r">$149</span></label><label class="option"><input type="radio" name="path" value="private"><span class="option-body"><b data-i18n="x.name">The Private Experience</b><small data-i18n="x.kind">Your personalized transformation</small></span><span class="option-price" data-i18n="price.x">$597</span></label>
+    </fieldset>
+    <fieldset id="co-version" hidden><legend data-i18n="co.version">Guide version</legend>
+      <div class="option-pair"><label class="option"><input type="radio" name="version" value="women"><span class="option-body"><b data-i18n="co.women">Women</b><small data-i18n="co.wpages">≈ 30 pages</small></span></label><label class="option"><input type="radio" name="version" value="men"><span class="option-body"><b data-i18n="co.men">Men</b><small data-i18n="co.mpages">≈ 50 pages</small></span></label></div>
     </fieldset>
     <label class="check"><input type="checkbox" id="co-terms"><span data-i18n="co.terms">I have read and accept the <a href="terms.html">Terms of sale</a>.</span></label>
     <label class="check"><input type="checkbox" id="co-waive"><span data-i18n="co.waive">I ask for my guide or program to start before the end of the 14-day withdrawal period, and I understand that I lose my right of withdrawal for digital content once it has been delivered.</span></label>
     <p class="total"><span data-i18n="co.total">Total</span><strong id="co-total"></strong></p>
     <p><a class="btn btn-solid" id="co-pay" href="#" target="_blank" rel="noopener" aria-disabled="true"><span data-i18n="co.pay">Pay with PayPal</span> <span class="arr" aria-hidden="true">→</span></a></p>
     <p class="form-msg" id="co-msg" role="status" hidden data-i18n="co.check">Please check both boxes to continue.</p>
+    <p class="form-msg" id="co-vmsg" role="status" hidden data-i18n="co.vneed">Please choose the version of your guide.</p>
+    <p class="fineprint co-vnote" id="co-vnote" hidden><span data-i18n="co.note">In the PayPal payment note, please write:</span> <strong id="co-vtext"></strong></p>
     <p class="fineprint" data-i18n="co.redirect">You will be taken to PayPal to complete your payment.</p>
     <p class="fineprint" data-i18n="co.after">After payment, you receive an email invitation to access your program.</p>
     <p class="fineprint"><span data-i18n="co.wise">Prefer to pay with Wise? Write to</span> <a data-contact-email href="#"></a></p>

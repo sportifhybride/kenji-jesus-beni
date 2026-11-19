@@ -26,12 +26,35 @@
   </div>
 </header>
 <main id="main"><section class="page-hero"><img src="img/pool.jpg" alt="" style="object-position:50% 30%"><div class="wrap"><h1 class="reveal" data-i18n="jr.title">Real journeys. Real transformation.</h1></div></section>
-<section class="section sand"><div class="wrap">
-  <div class="journey-empty reveal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19l8-8"/></svg><p data-i18n="jr.text">The first INNÉ journeys are being written right now. Only genuine stories from real clients will ever be shared here.</p><a class="btn btn-ink" href="begin.html" data-i18n="jr.cta">Be among the first</a></div>
+<section class="section sand reviews"><div class="wrap">
+  <div class="rv-head">
+    <div class="rv-score" id="rv-score" hidden><span class="rv-avg" id="rv-avg"></span><span id="rv-stars-avg"></span><span class="rv-count" id="rv-count"></span></div>
+    <div class="rv-tools" id="rv-tools" hidden>
+      <div class="rv-chips" role="group"><button type="button" data-rv-offer="" aria-pressed="true" data-i18n="rv.all">All paths</button><button type="button" data-rv-offer="guide" aria-pressed="false" data-i18n="f.name">The Guide</button><button type="button" data-rv-offer="program" aria-pressed="false" data-i18n="r.name">The Program</button><button type="button" data-rv-offer="private" aria-pressed="false" data-i18n="x.name">The Private Experience</button></div>
+      <label class="rv-sort"><span data-i18n="rv.sort">Sort by</span><select id="rv-sort"><option value="recent" data-i18n="rv.recent">Most recent</option><option value="best" data-i18n="rv.best">Highest rated</option><option value="oldest" data-i18n="rv.oldest">Oldest</option></select></label>
+    </div>
+  </div>
+  <p class="rv-status" id="rv-status" role="status">Loading reviews…</p>
+  <div class="journey-empty" id="rv-empty" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19l8-8"/></svg><p data-i18n="jr.text">The first INNÉ journeys are being written right now. Only genuine stories from real clients will ever be shared here.</p><a class="btn btn-ink" href="programs.html" data-i18n="jr.cta">Be among the first</a></div>
+  <ol class="rv-list" id="rv-list"></ol>
+  <details class="rv-how"><summary data-i18n="rv.how_t">How reviews work</summary><p data-i18n="rv.how">Only clients who have followed an INNÉ path can post, with a personal one-time code. Kenji reads every review before it is published. Reviews are never refused for being negative: only insulting, off-topic or false content, or content revealing personal data, is removed. No review is paid for or rewarded. Reviews are shown from newest to oldest by default, with their publication date.</p></details>
 </div></section>
-<section class="section dark center"><div class="wrap">
-  <p class="lead reveal" style="font-size:19px" data-i18n="jp.p">Have you started your journey with INNÉ? Your story could inspire the next person.</p>
-  <p class="reveal d1" style="margin-top:28px"><a class="btn btn-ghost" href="begin.html" data-i18n="jp.cta">Share your story</a></p>
+<section class="section olive" id="share"><div class="wrap rv-form-wrap">
+  <h2 class="h2 rule reveal" data-i18n="rv.ftitle">Share your experience</h2>
+  <p class="lead reveal d1" style="margin:22px 0 34px" data-i18n="rv.fintro">Have you completed an INNÉ path? Tell the next person how it went: what changed for you, what you liked, and what could be better.</p>
+  <form class="form rv-form" id="rv-form" novalidate>
+    <label><span data-i18n="rv.code">Your client code</span><input type="text" name="code" required autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="INNE-XXXX-XXXX" maxlength="20"><small class="help" data-i18n="rv.codehelp">Kenji gives you this code at the end of your path. Each code can be used once.</small></label>
+    <div class="rv-row">
+      <label><span data-i18n="rv.name">First name</span><input type="text" name="name" required maxlength="40" autocomplete="given-name"><small class="help" data-i18n="rv.namehelp">Shown with your review. You can add the initial of your last name.</small></label>
+      <label><span data-i18n="rv.offer">Path you followed</span><select name="offer" required><option value="" data-i18n="rv.choose">Choose…</option><option value="guide" data-i18n="f.name">The Guide</option><option value="program" data-i18n="r.name">The Program</option><option value="private" data-i18n="x.name">The Private Experience</option></select></label>
+    </div>
+    <fieldset class="rv-rate"><legend data-i18n="rv.rating">Your rating</legend><div class="rv-rate-stars"><input type="radio" name="rating" id="rv-r5" value="5"><label for="rv-r5" title="5/5">★</label><input type="radio" name="rating" id="rv-r4" value="4"><label for="rv-r4" title="4/5">★</label><input type="radio" name="rating" id="rv-r3" value="3"><label for="rv-r3" title="3/5">★</label><input type="radio" name="rating" id="rv-r2" value="2"><label for="rv-r2" title="2/5">★</label><input type="radio" name="rating" id="rv-r1" value="1"><label for="rv-r1" title="1/5">★</label></div></fieldset>
+    <label><span data-i18n="rv.body">Your review</span><textarea name="body" required minlength="30" maxlength="2000"></textarea><small class="help"><span data-i18n="rv.bodyhelp">At least 30 characters.</span> <span id="rv-chars">0 / 2000</span></small></label>
+    <label class="rv-hp" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+    <label class="check"><input type="checkbox" name="consent" required><span data-i18n="rv.consent">I agree that my first name, rating and review are published on this site. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
+    <div><button class="btn btn-solid" type="submit"><span data-i18n="rv.submit">Post my review</span> <span class="arr" aria-hidden="true">→</span></button></div>
+    <p class="form-msg" id="rv-msg" role="status" hidden></p>
+  </form>
 </div></section>
 </main>
 <footer class="site-footer">
@@ -68,5 +91,6 @@
 <script src="js/settings.js"></script>
 <script src="js/texts.js"></script>
 <script src="js/site.js"></script>
+<script src="js/reviews.js"></script>
 </body>
 </html>
